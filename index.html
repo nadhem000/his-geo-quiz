@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>لعبة اختبارات التاريخ والجغرافيا</title>
+		<link rel="stylesheet" href="styles/main.css">
+		<!-- PWA Meta Tags -->
+		<link rel="manifest" href="/manifest.json">
+		<meta name="theme-color" content="#3498db">
+		<!-- iOS Support -->
+		<link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	</head>
+	<body>
+		<!-- Page 1: Category Selection -->
+		<div id="category-page" class="container">
+			<h1>اختر فئة الاختبار</h1>
+			<div id="category-selection">
+				<button class="category-btn" data-category="history">التاريخ</button>
+				<button class="category-btn" data-category="geography">الجغرافيا</button>
+				<div id="additional-categories" class="hidden"></div>
+			</div>
+		</div>
+		
+		<!-- Page 2: Game Mode Selection -->
+		<div id="mode-page" class="container hidden">
+			<h1>Select Game Mode</h1>
+			<div id="mode-selection">
+				<button id="easy-mode-btn" class="mode-btn">Easy Mode (Multiple Choice)</button>
+				<button id="hard-mode-btn" class="mode-btn">Hard Mode (Text Input)</button>
+			</div>
+			<div id="game-settings">
+				<button id="sound-toggle">🔊 Sound On</button>
+				<button id="high-scores-btn">🏆 High Scores</button>
+			</div>
+		</div>
+		
+		<!-- Page 3: Quiz Game -->
+		<div id="quiz-page" class="container hidden">
+			<div id="settings">
+				<button id="quiz-sound-toggle">🔊 Sound On</button>
+				<button id="quiz-high-scores-btn">🏆 High Scores</button>
+			</div>
+			<div id="stats">
+				<div class="stat-box">
+					<div>Score</div>
+					<div id="current-score">0</div>
+				</div>
+				<div class="stat-box">
+					<div>Stage</div>
+					<div id="current-stage">1</div>
+				</div>
+				<div class="stat-box">
+					<div>Time</div>
+					<div id="timer">30</div>
+				</div>
+			</div>
+			<div id="progress-container">
+				<div id="progress-bar">
+					<div id="progress"></div>
+				</div>
+			</div>
+			<div id="question-image">
+				<span>No Image</span>
+			</div>
+			<h2 id="question-text">Question text goes here</h2>
+			<div id="easy-mode-container">
+				<div id="options-container">
+					<!-- Options will be inserted here by JavaScript -->
+				</div>
+			</div>
+			<div id="hard-mode-container" class="hidden">
+				<div id="text-answer-container">
+					<input type="text" id="text-answer" placeholder="Type your answer...">
+					<button id="submit-answer">Submit</button>
+				</div>
+			</div>
+			<div id="feedback" class="hidden"></div>
+		</div>
+		
+		<!-- High Scores Modal -->
+		<div id="high-scores-modal">
+			<div id="high-scores-content">
+				<span class="close-modal">&times;</span>
+				<h2>High Scores</h2>
+				<div id="high-scores-list">
+					<!-- High scores will be inserted here by JavaScript -->
+				</div>
+			</div>
+		</div>
+		
+		<!-- Online/Offline Toggle Placeholder -->
+		<div id="connection-status" class="hidden">
+			<button id="online-toggle">Switch to Online Mode</button>
+		</div>
+		
+		<script src="scripts/questions.js"></script>
+		<script src="scripts/main.js"></script>
+	</body>
+</html>
