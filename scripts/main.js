@@ -142,22 +142,31 @@ function showCurrentPage() {
 		clearInterval(timer);
 	}
 }
+
+function getCurrentQuestionBank() {
+    switch(currentStage) {
+        case 1: return QUESTION_BANK;
+        case 2: return QUESTION_BANK2;
+        case 3: return QUESTION_BANK3;
+        default: return QUESTION_BANK;
+    }
+}
 function startGame() {
-	// Reset game state
-	currentQuestionIndex = 0;
-	currentStage = 1;
-	score = 0;
-	questions = [...QUESTION_BANK[selectedCategory]]; // Create a copy of questions
-	// Shuffle questions
-	shuffleArray(questions);
-	// Initialize UI
-	updateScoreDisplay();
-	currentStageElement.textContent = currentStage;
-	// Show quiz page
-	currentPage = 'quiz';
-	showCurrentPage();
-	// Load first question
-	loadQuestion();
+    // Reset game state
+    currentQuestionIndex = 0;
+    currentStage = 1;
+    score = 0;
+    questions = [...getCurrentQuestionBank()[selectedCategory]]; // Modified line
+    // Shuffle questions
+    shuffleArray(questions);
+    // Initialize UI
+    updateScoreDisplay();
+    currentStageElement.textContent = currentStage;
+    // Show quiz page
+    currentPage = 'quiz';
+    showCurrentPage();
+    // Load first question
+    loadQuestion();
 }
 function loadQuestion() {
 	// Clear any existing timer
@@ -266,7 +275,7 @@ function showFeedback(isCorrect, correctAnswer) {
 		playSound(sound);
 	}
 	// Show visual feedback
-	feedbackElement.textContent = isCorrect ? '👍 Correct!' : `👎 Wrong! Correct answer: ${correctAnswer}`;
+	feedbackElement.textContent = isCorrect ? '👍 صواب!' : `👎 خطأ! الإجابة الصحيحة هي: ${correctAnswer}`;
 	feedbackElement.style.color = isCorrect ? 'green' : 'red';
 	feedbackElement.classList.remove('hidden');
 	// Hide feedback after delay
@@ -289,34 +298,42 @@ function nextQuestion() {
 		loadQuestion();
 	}
 }
+
 function checkStageCompletion() {
-	const stageQuestions = Math.min(QUESTIONS_PER_STAGE, questions.length - (currentQuestionIndex - QUESTIONS_PER_STAGE));
-	const stageScore = calculateStageScore();
-	const percentage = (stageScore / (stageQuestions * (gameMode === 'easy' ? 10 : 20))) * 100;
-	if (percentage >= STAGE_ADVANCE_SCORE) {
-		// Advance to next stage
-		currentStage++;
-		currentStageElement.textContent = currentStage;
-		// Play success sound
-		if (soundEnabled) {
-			playSound('levelup');
-		}
-		// Show stage complete message
-		feedbackElement.textContent = `Stage ${currentStage-1} Complete! Advancing to Stage ${currentStage}`;
-		feedbackElement.style.color = 'blue';
-		feedbackElement.classList.remove('hidden');
-		// Load next question after delay
-		setTimeout(() => {
-			feedbackElement.classList.add('hidden');
-			loadQuestion();
-		}, 2000);
-		} else {
-		// Failed to advance - end game
-		feedbackElement.textContent = `Stage ${currentStage} Failed! Need ${STAGE_ADVANCE_SCORE}% to advance`;
-		feedbackElement.style.color = 'red';
-		feedbackElement.classList.remove('hidden');
-		setTimeout(endGame, 2000);
-	}
+    const stageQuestions = Math.min(QUESTIONS_PER_STAGE, questions.length - (currentQuestionIndex - QUESTIONS_PER_STAGE));
+    const stageScore = calculateStageScore();
+    const percentage = (stageScore / (stageQuestions * (gameMode === 'easy' ? 10 : 20))) * 100;
+
+    if (percentage >= STAGE_ADVANCE_SCORE) {
+        // Advance to next stage
+        currentStage++;
+        
+        // NEW CODE: Load questions for next stage
+        questions = [...getCurrentQuestionBank()[selectedCategory]];
+        shuffleArray(questions);
+        currentQuestionIndex = 0;
+
+        currentStageElement.textContent = currentStage;
+        // Play success sound
+        if (soundEnabled) {
+            playSound('levelup');
+        }
+        // Show stage complete message
+        feedbackElement.textContent = `أنهيت ${currentStage-1} بنجاح! المرور الى المستوى ${currentStage}`;
+        feedbackElement.style.color = 'blue';
+        feedbackElement.classList.remove('hidden');
+        // Load next question after delay
+        setTimeout(() => {
+            feedbackElement.classList.add('hidden');
+            loadQuestion();
+        }, 2000);
+    } else {
+        // Failed to advance - end game
+        feedbackElement.textContent = `Stage ${currentStage} Failed! Need ${STAGE_ADVANCE_SCORE}% to advance`;
+        feedbackElement.style.color = 'red';
+        feedbackElement.classList.remove('hidden');
+        setTimeout(endGame, 2000);
+    }
 }
 function calculateStageScore() {
 	// Calculate score for the current stage only
@@ -358,7 +375,7 @@ function playSound(type) {
 	// Create new audio element each time to allow overlapping sounds
 	const audio = new Audio();
 	
-	// These are very short silent audio clips - replace with real sounds
+	// These are very short audio clips
    const sounds = {
        correct: "assets/sounds/correct.wav",
        wrong: "assets/sounds/wrong.wav",
