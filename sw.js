@@ -4,7 +4,17 @@ const ASSETS = [
   '/index.html',
   '/styles/main.css',
   '/scripts/main.js',
-  '/assets/icons/*',
+  // Explicitly list key icons
+  '/assets/icons/android/android-launchericon-512-512.png',
+  '/assets/icons/android/android-launchericon-192-192.png',
+  '/assets/icons/android/android-launchericon-48-48.png',
+  '/assets/icons/ios/16.png',
+  '/assets/icons/ios/72.png',
+  '/assets/icons/ios/152.png',
+  '/assets/icons/ios/167.png',
+  '/assets/icons/ios/180.png',
+  '/assets/icons/ios/192.png',
+  '/assets/icons/ios/512.png',
   '/assets/sounds/*',
   '/assets/images/*'
 ];
