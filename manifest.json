@@ -1,35 +1,35 @@
 {
-  "name": "Tunisian Bac Quiz",
-  "short_name": "BacQuiz",
-  "id": "BacQuiz",
-  "description": "اختبارات سريعة للذاكرة لتلاميذ الباكالوريا",
-  "theme_color": "#25e582",
-  "background_color": "#dd1111",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "icons": [
-    {
-      "src": "assets/icons/android/android-launchericon-512-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "assets/icons/android/android-launchericon-192-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    }
-  ],
-  
-  "launch_handler": {
-    "client_mode": "auto"
-  },
-  "display_override": [
-  "window-controls-overlay",
-  "standalone",
-  "browser"
-]
-}
+	"name": "Tunisian Bac Quiz",
+	"short_name": "BacQuiz",
+	"id": "BacQuiz",
+	"description": "اختبارات سريعة للذاكرة لتلاميذ الباكالوريا",
+	"theme_color": "#25e582",
+	"background_color": "#dd1111",
+	"start_url": "/",
+	"display": "standalone",
+	"orientation": "portrait",
+	"icons": [
+		{
+			"src": "assets/icons/android/android-launchericon-512-512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "maskable"
+		},
+		{
+			"src": "assets/icons/android/android-launchericon-192-192.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any"
+		}
+	],
+	{
+		"edge_side_panel": {
+			"preferred_width": 400
+		}
+	},
+	"display_override": [
+		"window-controls-overlay",
+		"standalone",
+		"browser"
+	]
 }
