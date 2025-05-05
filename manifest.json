@@ -22,10 +22,8 @@
 			"purpose": "any"
 		}
 	],
-	{
-		"edge_side_panel": {
-			"preferred_width": 400
-		}
+	"edge_side_panel": {
+		"preferred_width": 400
 	},
 	"display_override": [
 		"window-controls-overlay",
