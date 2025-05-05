@@ -3,7 +3,7 @@
   "theme_color": "#25e582",
   "background_color": "#dd1111",
   "short_name": "BacQuiz",
-  "start_url": "https://his-geo-quiz-test.netlify.app"
+  "start_url": "https://his-geo-quiz-test.netlify.app/"
   "id": "BacQuiz",
   "description": "اختبارات سريعة للذاكرة لتلاميذ الباكالوريا"
 }
