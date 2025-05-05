@@ -30,5 +30,10 @@
   "window-controls-overlay",
   "standalone",
   "browser"
-]
+],
+  {
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}
 }
