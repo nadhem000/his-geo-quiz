@@ -7,13 +7,13 @@
   "theme_color": "#3498db",
   "icons": [
     {
-      "src": "assets/icons/android/android-launchericon-512-512.png",  // Required 512x512 icon
+      "src": "android/android-launchericon-512-512.png",  // Required 512x512 icon
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "assets/icons/android/android-launchericon-192-192.png",  // Recommended for Android
+      "src": "android/android-launchericon-192-192.png",  // Recommended for Android
       "sizes": "192x192",
       "type": "image/png"
     }
