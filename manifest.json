@@ -25,5 +25,10 @@
   
   "launch_handler": {
     "client_mode": "auto"
-  }
+  },
+  "display_override": [
+  "window-controls-overlay",
+  "standalone",
+  "browser"
+]
 }
