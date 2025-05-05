@@ -4,18 +4,5 @@
   "background_color": "#dd1111",
   "short_name": "BacQuiz",
   "id": "BacQuiz",
-  "description": "اختبارات سريعة للذاكرة لتلاميذ الباكالوريا",
-  "icons": [
-    {
-      "src": "assets/icons/android/android-launchericon-512-512.png",  // Required 512x512 icon
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "assets/icons/android/android-launchericon-192-192.png",  // Recommended for Android
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ]
+  "description": "اختبارات سريعة للذاكرة لتلاميذ الباكالوريا"
 }
