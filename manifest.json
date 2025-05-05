@@ -1,7 +1,7 @@
 {
   "name": "Tunisian Bac Quiz",
   "short_name": "BacQuiz",
-  "start_url": "/",
+  "start_url": "his-geo-quiz-test.netlify.app",
   "display": "standalone",
   "background_color": "#f5f5f5",
   "theme_color": "#3498db",

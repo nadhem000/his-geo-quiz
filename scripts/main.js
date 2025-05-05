@@ -4,6 +4,8 @@ const QUESTIONS_PER_STAGE = 10;
 const EASY_MODE_TIME = 30; // seconds per question
 const HARD_MODE_TIME = 20; // seconds per question
 const STAGE_ADVANCE_SCORE = 50; // percentage needed to advance
+const POINTS_EASY_CORRECT = 10;
+const POINTS_HARD_CORRECT = 20;
 // Game state
 let currentPage = "category"; // category, mode, quiz
 let selectedCategory = "";
@@ -247,6 +249,7 @@ function checkAnswer(selectedIndex) {
 	}
 	
 	const isCorrect = selectedIndex === question.correctAnswer;
+questions[currentQuestionIndex].answeredCorrectly = isCorrect;
 	showFeedback(isCorrect, question.options[question.correctAnswer]);
 	
 	if (isCorrect) {
@@ -261,6 +264,7 @@ function checkTextAnswer() {
 	const userAnswer = textAnswerInput.value.trim().toLowerCase();
 	const correctAnswer = question.options[question.correctAnswer].toLowerCase();
 	const isCorrect = userAnswer === correctAnswer;
+questions[currentQuestionIndex].answeredCorrectly = isCorrect;
 	showFeedback(isCorrect, question.options[question.correctAnswer]);
 	if (isCorrect) {
 		score += 20; // Hard mode gives more points
@@ -336,11 +340,21 @@ function checkStageCompletion() {
     }
 }
 function calculateStageScore() {
-	// Calculate score for the current stage only
-	const startIndex = currentQuestionIndex - (currentQuestionIndex % QUESTIONS_PER_STAGE);
-	const endIndex = Math.min(startIndex + QUESTIONS_PER_STAGE, questions.length);
-	// This is simplified - in a real game you'd track correct answers per question
-	return score - (startIndex * (gameMode === 'easy' ? 10 : 20));
+    // Track correct answers in current stage
+    let stageScore = 0;
+    const startIndex = currentQuestionIndex - QUESTIONS_PER_STAGE;
+    
+    // Check last 10 questions (or remaining questions)
+    for (let i = startIndex; i < currentQuestionIndex; i++) {
+        if (i >= 0 && questions[i]) {
+            const question = questions[i];
+            if (question.answeredCorrectly) {
+                stageScore += gameMode === 'easy' ? 10 : 20;
+            }
+        }
+    }
+    
+    return stageScore;
 }
 function endGame() {
 	// Save high score
