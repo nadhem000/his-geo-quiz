@@ -475,3 +475,84 @@ window.addEventListener('click', function(event) {
 		hideHighScores();
 	}
 });
+// PWA Installation Logic
+let deferredPrompt;
+let isAppInstalled = false;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the mini-infobar from appearing
+  e.preventDefault();
+  // Stash the event so it can be triggered later
+  deferredPrompt = e;
+  // Show the install button
+  const installButton = document.getElementById('installButton');
+  if (installButton) installButton.style.display = 'block';
+});
+
+window.addEventListener('appinstalled', () => {
+  isAppInstalled = true;
+  const installButton = document.getElementById('installButton');
+  if (installButton) installButton.style.display = 'none';
+  console.log('App installed successfully');
+});
+
+// Handle install button click
+document.getElementById('installButton')?.addEventListener('click', async () => {
+  if (deferredPrompt) {
+    // Show the install prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      console.log('User accepted install');
+      isAppInstalled = true;
+      document.getElementById('installButton').style.display = 'none';
+    }
+    // Clear the deferredPrompt variable
+    deferredPrompt = null;
+  }
+});
+
+// Check if app is already installed
+if (window.matchMedia('(display-mode: standalone)').matches || 
+   window.navigator.standalone ||
+   document.referrer.includes('android-app://')) {
+  isAppInstalled = true;
+  document.getElementById('installButton').style.display = 'none';
+}
+
+// Manual install fallback for iOS
+function showiOSInstallInstructions() {
+  const instructions = document.createElement('div');
+  instructions.className = 'ios-install-instructions';
+  instructions.innerHTML = `
+    <p>لتثبيت التطبيق على iOS:</p>
+    <ol>
+      <li>افتح القائمة المشتركة (زر المشاركة)</li>
+      <li>اختر "أضف إلى الشاشة الرئيسية"</li>
+    </ol>
+  `;
+  document.body.appendChild(instructions);
+  instructions.style.display = 'block';
+}
+
+// Show iOS instructions if needed
+if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.navigator.standalone) {
+  const installButton = document.getElementById('installButton');
+  if (installButton) {
+    installButton.style.display = 'block';
+    installButton.addEventListener('click', showiOSInstallInstructions);
+  }
+}
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('SW registered:', registration);
+      })
+      .catch(error => {
+        console.log('SW registration failed:', error);
+      });
+  });
+}

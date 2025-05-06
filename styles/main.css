@@ -209,4 +209,37 @@ button.secondary:hover {
     line-height: 1.5;
     text-align: center;
 }
+.install-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1000;
+  font-family: inherit;
+  transition: background 0.3s ease;
+  display: none; /* Hidden by default */
+}
+
+.install-btn:hover {
+  background: #2980b9;
+}
+
+/* For iOS instructions */
+.ios-install-instructions {
+  display: none;
+  position: fixed;
+  top: 60px;
+  left: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+  color: #333;
+}
 </style>

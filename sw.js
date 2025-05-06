@@ -1,9 +1,9 @@
+
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
-const CACHE_NAME = 'quiz-v3';
+const CACHE_NAME = 'quiz-v4'; // Updated version
 const OFFLINE_FALLBACK = '/offline.html';
-
-const ASSETS = [
+const PRECACHE_ASSETS = [
 	'/',
 	'/icons.json',
 	'/index.html',
@@ -39,52 +39,104 @@ const ASSETS = [
 	'/assets/sounds/wrong.wav'
 ];
 
-// Workbox configuration
-workbox.setConfig({ debug: false });
+// Workbox Configuration
+workbox.setConfig({
+  debug: false,
+  clientsClaim: true,
+  skipWaiting: true
+});
 
-// Cache-first strategy for core assets
-workbox.routing.registerRoute(
-  ({url}) => ASSETS.includes(url.pathname),
-  new workbox.strategies.CacheFirst()
-);
+// Precaching Strategy
+workbox.precaching.precacheAndRoute(PRECACHE_ASSETS);
 
-// Stale-While-Revalidate for other assets
+// Cache Strategies
 workbox.routing.registerRoute(
-  ({request}) => ['style', 'script', 'image', 'audio'].includes(request.destination),
-  new workbox.strategies.StaleWhileRevalidate()
-);
-
-// NetworkFirst only for navigation (will fallback to offline.html)
-workbox.routing.registerRoute(
-  ({request}) => request.mode === 'navigate',
+  ({request}) => request.destination === 'document',
   new workbox.strategies.NetworkFirst({
     cacheName: CACHE_NAME,
     plugins: [
       new workbox.expiration.ExpirationPlugin({
-        maxEntries: 10
+        maxEntries: 10,
+        purgeOnQuotaError: true
       })
     ]
   })
 );
 
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
-});
+workbox.routing.registerRoute(
+  ({request}) => ['style', 'script'].includes(request.destination),
+  new workbox.strategies.StaleWhileRevalidate({
+    cacheName: `${CACHE_NAME}-assets`,
+    plugins: [
+      new workbox.expiration.ExpirationPlugin({
+        maxEntries: 50,
+        maxAgeSeconds: 60 * 60 * 24 * 30 // 30 Days
+      })
+    ]
+  })
+);
 
-self.addEventListener('install', async (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(ASSETS))
-      .then(() => self.skipWaiting())
-  );
-});
+workbox.routing.registerRoute(
+  ({request}) => ['image', 'audio'].includes(request.destination),
+  new workbox.strategies.CacheFirst({
+    cacheName: `${CACHE_NAME}-media`,
+    plugins: [
+      new workbox.expiration.ExpirationPlugin({
+        maxEntries: 100,
+        maxAgeSeconds: 60 * 60 * 24 * 60 // 60 Days
+      })
+    ]
+  })
+);
 
-// Offline fallback
+// Offline Fallback
 workbox.routing.setCatchHandler(async ({event}) => {
   if (event.request.destination === 'document') {
     return caches.match(OFFLINE_FALLBACK);
   }
   return Response.error();
 });
+
+// Service Worker Lifecycle Management
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(PRECACHE_ASSETS))
+      .then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheName !== CACHE_NAME && 
+              cacheName !== `${CACHE_NAME}-assets` && 
+              cacheName !== `${CACHE_NAME}-media`) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});
+
+// Background Sync (if needed later)
+self.addEventListener('sync', event => {
+  if (event.tag === 'sync-data') {
+    event.waitUntil(handleBackgroundSync());
+  }
+});
+
+// Message Handling
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
+// Utility Functions
+const handleBackgroundSync = async () => {
+  // Implement your background sync logic here
+};
