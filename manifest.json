@@ -29,5 +29,9 @@
 		"window-controls-overlay",
 		"standalone",
 		"browser"
-	]
+	],
+	
+  "launch_handler": {
+    "client_mode": "auto"
+  }
 }
