@@ -33,24 +33,24 @@
 	"launch_handler": {
 		"client_mode": "auto"
 	},
-	"screenshots" : [
-		{
-			"assets/screenshots/screenshot_01.png",
-			"sizes": "851x361",
-			"type": "image/png",
-			"platform": "wide",
-		},
-		{
-			"assets/screenshots/screenshot_02.png",
-			"sizes": "858x361",
-			"type": "image/png",
-			"platform": "wide",
-		},
-		{
-			"assets/screenshots/screenshot_03.png",
-			"sizes": "652x531",
-			"type": "image/png",
-			"platform": "wide",
-		}
-	]
+	    "screenshots" : [
+        {
+            "src": "assets/screenshots/screenshot_01.png",
+            "sizes": "851x361",
+            "type": "image/png",
+            "platform": "wide"
+        },
+        {
+            "src": "assets/screenshots/screenshot_02.png",
+            "sizes": "858x361",
+            "type": "image/png",
+            "platform": "wide"
+        },
+        {
+            "src": "assets/screenshots/screenshot_03.png",
+            "sizes": "652x531",
+            "type": "image/png",
+            "platform": "wide"
+        }
+    ]
 }
