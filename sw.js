@@ -31,6 +31,9 @@ const ASSETS = [
 	'/assets/icons/windows11/StoreLogo.scale-400.png',
 	'/assets/icons/windows11/Wide310x150Logo.scale-125.png',
 	'/assets/backgrounds/3d-render-sunrise-view-from-space-planet-earth.jpg',
+	'/assets/screenshots/screenshot_01.png',
+	'/assets/screenshots/screenshot_02.png',
+	'/assets/screenshots/screenshot_03.png',
 	'/assets/sounds/correct.wav',
 	'/assets/sounds/levelup.wav',
 	'/assets/sounds/wrong.wav'
