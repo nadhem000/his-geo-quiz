@@ -1,4 +1,3 @@
-
 // Game configuration
 const QUESTIONS_PER_STAGE = 10;
 const EASY_MODE_TIME = 30; // seconds per question
@@ -54,6 +53,9 @@ const highScoresBtns = document.querySelectorAll("#high-scores-btn, #quiz-high-s
 const closeModalBtn = document.querySelector(".close-modal");
 const connectionStatus = document.getElementById("connection-status");
 const onlineToggle = document.getElementById("online-toggle");
+const resourcesPage = document.getElementById("resources-page");
+const resourcesBtn = document.getElementById("resources-btn");
+const resourcesListDiv = document.getElementById("resources-list");
 // Log file creation
 const gamePath = "C:\\Users\\hermes2\\Documents\\My Games\\newquiz.html";
 try {
@@ -128,6 +130,7 @@ function showCurrentPage() {
 	categoryPage.classList.add('hidden');
 	modePage.classList.add('hidden');
 	quizPage.classList.add('hidden');
+    resourcesPage.classList.add('hidden');
 	// Show the current page
 	switch(currentPage) {
 		case 'category':
@@ -140,16 +143,25 @@ function showCurrentPage() {
 		case 'quiz':
 		quizPage.classList.remove('hidden');
 		break;
+        case 'resources':
+        resourcesPage.classList.remove('hidden');
+        clearInterval(timer); // Stop timer if it's running
+        break;
 		}if (currentPage !== 'quiz') {
 		clearInterval(timer);
 	}
 }
-
 function getCurrentQuestionBank() {
     switch(currentStage) {
         case 1: return QUESTION_BANK;
         case 2: return QUESTION_BANK2;
         case 3: return QUESTION_BANK3;
+        case 4: return QUESTION_BANK4;
+        case 5: return QUESTION_BANK5;
+        case 6: return QUESTION_BANK6;
+        case 7: return QUESTION_BANK7;
+        case 8: return QUESTION_BANK8;
+        case 9: return QUESTION_BANK9;
         default: return QUESTION_BANK;
     }
 }
@@ -227,36 +239,30 @@ function handleTimeOut() {
 	showFeedback(false, question.options[question.correctAnswer]);
 	nextQuestion();
 }
-
 function checkAnswer(selectedIndex) {
 	// First check if we have valid questions
 	if (!questions || questions.length === 0) {
 		console.error("No questions available");
 		return;
 	}
-	
 	// Get current question with safety checks
 	const question = questions[currentQuestionIndex];
 	if (!question || !question.options || question.correctAnswer === undefined) {
 		console.error("Invalid question structure:", question);
 		return;
 	}
-	
 	// Check if selectedIndex is valid
 	if (selectedIndex < 0 || selectedIndex >= question.options.length) {
 		console.error("Invalid answer selection");
 		return;
 	}
-	
 	const isCorrect = selectedIndex === question.correctAnswer;
 questions[currentQuestionIndex].answeredCorrectly = isCorrect;
 	showFeedback(isCorrect, question.options[question.correctAnswer]);
-	
 	if (isCorrect) {
 		score += gameMode === 'easy' ? 10 : 20;
 		updateScoreDisplay();
 	}
-	
 	nextQuestion();
 }
 function checkTextAnswer() {
@@ -302,21 +308,17 @@ function nextQuestion() {
 		loadQuestion();
 	}
 }
-
 function checkStageCompletion() {
     const stageQuestions = Math.min(QUESTIONS_PER_STAGE, questions.length - (currentQuestionIndex - QUESTIONS_PER_STAGE));
     const stageScore = calculateStageScore();
     const percentage = (stageScore / (stageQuestions * (gameMode === 'easy' ? 10 : 20))) * 100;
-
     if (percentage >= STAGE_ADVANCE_SCORE) {
         // Advance to next stage
         currentStage++;
-        
         // NEW CODE: Load questions for next stage
         questions = [...getCurrentQuestionBank()[selectedCategory]];
         shuffleArray(questions);
         currentQuestionIndex = 0;
-
         currentStageElement.textContent = currentStage;
         // Play success sound
         if (soundEnabled) {
@@ -343,7 +345,6 @@ function calculateStageScore() {
     // Track correct answers in current stage
     let stageScore = 0;
     const startIndex = currentQuestionIndex - QUESTIONS_PER_STAGE;
-    
     // Check last 10 questions (or remaining questions)
     for (let i = startIndex; i < currentQuestionIndex; i++) {
         if (i >= 0 && questions[i]) {
@@ -353,7 +354,6 @@ function calculateStageScore() {
             }
         }
     }
-    
     return stageScore;
 }
 function endGame() {
@@ -385,24 +385,19 @@ function updateSoundButtons() {
 }
 function playSound(type) {
 	if (!soundEnabled) return;
-	
 	// Create new audio element each time to allow overlapping sounds
 	const audio = new Audio();
-	
 	// These are very short audio clips
    const sounds = {
        correct: "assets/sounds/correct.wav",
        wrong: "assets/sounds/wrong.wav",
        levelup: "assets/sounds/levelup.wav"
    };
-	
 	try {
 		audio.src = sounds[type] || sounds.correct;
 		audio.volume = 0.5;
-		
 		// Try to play immediately
 		const playPromise = audio.play();
-		
 		// Handle potential play() rejection
 		if (playPromise !== undefined) {
 			playPromise.catch(error => {
@@ -478,7 +473,6 @@ window.addEventListener('click', function(event) {
 // PWA Installation Logic
 let deferredPrompt;
 let isAppInstalled = false;
-
 window.addEventListener('beforeinstallprompt', (e) => {
   // Prevent the mini-infobar from appearing
   e.preventDefault();
@@ -488,14 +482,12 @@ window.addEventListener('beforeinstallprompt', (e) => {
   const installButton = document.getElementById('installButton');
   if (installButton) installButton.style.display = 'block';
 });
-
 window.addEventListener('appinstalled', () => {
   isAppInstalled = true;
   const installButton = document.getElementById('installButton');
   if (installButton) installButton.style.display = 'none';
   console.log('App installed successfully');
 });
-
 // Handle install button click
 document.getElementById('installButton')?.addEventListener('click', async () => {
   if (deferredPrompt) {
@@ -512,7 +504,6 @@ document.getElementById('installButton')?.addEventListener('click', async () => 
     deferredPrompt = null;
   }
 });
-
 // Check if app is already installed
 if (window.matchMedia('(display-mode: standalone)').matches || 
    window.navigator.standalone ||
@@ -520,7 +511,6 @@ if (window.matchMedia('(display-mode: standalone)').matches ||
   isAppInstalled = true;
   document.getElementById('installButton').style.display = 'none';
 }
-
 // Manual install fallback for iOS
 function showiOSInstallInstructions() {
   const instructions = document.createElement('div');
@@ -535,7 +525,6 @@ function showiOSInstallInstructions() {
   document.body.appendChild(instructions);
   instructions.style.display = 'block';
 }
-
 // Show iOS instructions if needed
 if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.navigator.standalone) {
   const installButton = document.getElementById('installButton');
@@ -556,3 +545,50 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
+// Get all "Return to Home" buttons
+const returnHomeButtons = document.querySelectorAll('.return-home-btn');
+// Add event listener to each button
+returnHomeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Reload the page to return to the initial state (category selection)
+        window.location.reload();
+    });
+});
+// Event listener for the Resources button
+
+function showResourcesList() {
+    const resourcesListElement = document.getElementById("resources-list");
+    resourcesListElement.innerHTML = ''; // Clear previous content
+
+    if (resources && resources.length > 0) {
+        resources.forEach((resource, index) => {
+            // Create a div for each resource item
+            const resourceItemDiv = document.createElement('div');
+            resourceItemDiv.className = 'resource-item'; // Use the CSS class
+
+            // Add the content: name, description, and link
+            resourceItemDiv.innerHTML = `
+                <h3>${resource.name}</h3>
+                <p>${resource.description}</p>
+                <p><a href="${resource.link}" target="_blank">زيارة الموقع / المرجع</a></p>
+            `;
+
+            resourcesListElement.appendChild(resourceItemDiv); // Add the resource item to the list
+        });
+    } else {
+        resourcesListElement.innerHTML = '<p>لا توجد مواقع أو مراجع متاحة حالياً.</p>';
+    }
+
+    // The modal/page is shown by showCurrentPage, not here directly
+}
+// Event listener for the Resources button
+resourcesBtn.addEventListener('click', () => {
+    // Call the function to populate the resources list
+    showResourcesList();
+
+    // Change the current page state
+    currentPage = 'resources';
+
+    // Show the resources page
+    showCurrentPage();
+});

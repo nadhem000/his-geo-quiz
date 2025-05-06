@@ -1,7 +1,7 @@
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
-const CACHE_NAME = 'quiz-v4'; // Updated version
+const CACHE_NAME = 'quiz-v6'; // Updated version
 const OFFLINE_FALLBACK = '/offline.html';
 const PRECACHE_ASSETS = [
 	'/',

@@ -4988,3 +4988,27 @@ const QUESTION_BANK9 = {
 	]
 };
 
+
+// variable for resources
+const resources = [
+    {
+        name: "مدوّنة الأستاذة سعاد بن سعد",
+        description: "مدوّنة أنشاتها لمساعدة تلميذ الباكلوريا على فهم  مادّتي التاريخ والجغرافيا . تتضمن المدوّنة عرض للمعلومات والمسائل التي تتعلق ببرنامج الباكلوريا من دروس و توصيات منهجية و مهارية تساعد التلميذ على اجتياز الباكلوريا بنجاح.",
+        link: "https://www.souadbensaad.com/"
+    },
+    {
+        name: "مدونة الأستاذ علي عزوز القنوشي",
+        description: "مدونة الأستاذ علي عزوز القنوشي. نأمل أن تجدوا ما يفيدكم ولا تتردّدوا في الاتّصال على عنوان البريد الالكتروني التالي: prof.gannouchi@gmail.com",
+        link: "https://gannouchi.blogspot.com/"
+    },
+    {
+        name: "موقع الاستاذ محمد الرينشي",
+        description: "موقع خاص بأساتذة مادتي التاريخ و الجغرافيا الجمهورية التونسية",
+        link: "https://sites.google.com/view/histoire-geographie-med-rin/%D8%A7%D9%84%D8%B5%D9%81%D8%AD%D8%A9-%D8%A7%D9%84%D8%B1%D8%A6%D9%8A%D8%B3%D9%8A%D8%A9"
+    },
+    {
+        name: "مرجع كتابي مهم",
+        description: "اسم الكتاب والمؤلف والمعلومات الأساسية.",
+        link: "https://www.example.com/book-info" // Link to online version
+    }
+];

@@ -22,16 +22,18 @@
 				<button class="category-btn" data-category="history">التاريخ</button>
 				<button class="category-btn" data-category="geography">الجغرافيا</button>
 				<div id="additional-categories" class="hidden"></div>
+				<!-- Add resources button -->
+				<button id="resources-btn" class="secondary">مواقع ومراجع</button>
 				<!-- Add install button -->
 				<button id="installButton" class="install-btn" aria-label="Install app">
 					📲 تثبيت التطبيق
 				</button>
-				<!-- Footer Section -->
-				<div class="footer-note">
-					coded by Mejri Ziad<br>
-					05-2025 version 0.0.1 beta<br>
-					under developpement
-				</div>
+			</div>
+			<!-- Footer Section -->
+			<div class="footer-note">
+				coded by Mejri Ziad<br>
+				05-2025 version 0.0.2<br>
+				under developpement
 			</div>
 		</div>
 		
@@ -46,10 +48,12 @@
 				<button id="sound-toggle">🔊 Sound On</button>
 				<button id="high-scores-btn">🏆 High Scores</button>
 			</div>
+			<!-- Return to Home Button -->
+			<button class="return-home-btn secondary">العودة للصفحة الرئيسية</button>
 			<!-- Footer Section -->
 			<div class="footer-note">
 				coded by Mejri Ziad<br>
-				05-2025 version 0.0.1 beta<br>
+				05-2025 version 0.0.2<br>
 				under developpement
 			</div>
 		</div>
@@ -95,10 +99,12 @@
 				</div>
 			</div>
 			<div id="feedback" class="hidden"></div>
+			<!-- Return to Home Button -->
+			<button class="return-home-btn secondary">العودة للصفحة الرئيسية</button>
 			<!-- Footer Section -->
 			<div class="footer-note">
 				coded by Mejri Ziad<br>
-				05-2025 version 0.0.1 beta<br>
+				05-2025 version 0.0.2<br>
 				under developpement
 			</div>
 		</div>
@@ -106,12 +112,21 @@
 		<!-- High Scores Modal -->
 		<div id="high-scores-modal">
 			<div id="high-scores-content">
-				<span class="close-modal">&times;</span>
+				<span class="close-modal">×</span>
 				<h2>High Scores</h2>
 				<div id="high-scores-list">
 					<!-- High scores will be inserted here by JavaScript -->
 				</div>
 			</div>
+		</div>
+		
+		<!-- Page 4: Resources List (Add this section) -->
+		<div id="resources-page" class="container hidden">
+			<h1>مواقع ومراجع مفيدة</h1>
+			<div id="resources-list">
+				<!-- Resources will be listed here by JavaScript -->
+			</div>
+			<button class="return-home-btn secondary">العودة للصفحة الرئيسية</button>
 		</div>
 		
 		<!-- Online/Offline Toggle Placeholder -->
